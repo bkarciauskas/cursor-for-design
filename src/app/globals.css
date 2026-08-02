@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* Dark mode is class-driven so the demo can toggle it on stage without
+   depending on the presenter's OS setting. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Loop design tokens.
+
+  Every value below is a named token with a 1:1 counterpart in the Figma
+  library. Renaming or re-valuing a token here is the change that should
+  round-trip to Figma, so avoid raw hex anywhere outside this block.
+*/
+@theme {
+  --color-bg: #f7f7f4;
+  --color-fg: #26251e;
+  --color-accent: #f54e00;
+  --color-accent-fg: #ffffff;
+  --color-accent-soft: #fdeae1;
+
+  --color-card: #f2f1ed;
+  --color-card-01: #f0efeb;
+  --color-card-02: #ebeae5;
+  --color-card-03: #e6e5e0;
+  --color-card-04: #e1e0db;
+
+  --color-border: #e1e0db;
+  --color-border-strong: #d3d2cb;
+
+  --color-success: #1f7a4d;
+  --color-success-bg: #e2efe6;
+  --color-warning: #a06a00;
+  --color-warning-bg: #f6ecd9;
+  --color-danger: #bd3b2b;
+  --color-danger-bg: #f8e5e2;
+  --color-info: #2563a8;
+  --color-info-bg: #e3eaf6;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --text-display: 2.5rem;
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.02em;
+  --text-title: 1.375rem;
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.01em;
+}
+
+.dark {
+  --color-bg: #14120b;
+  --color-fg: #edecec;
+  --color-accent: #f54e00;
+  --color-accent-fg: #ffffff;
+  --color-accent-soft: #33190d;
+
+  --color-card: #1b1913;
+  --color-card-01: #1d1b15;
+  --color-card-02: #201e18;
+  --color-card-03: #26241e;
+  --color-card-04: #2b2923;
+
+  --color-border: #2b2923;
+  --color-border-strong: #3a382f;
+
+  --color-success: #5fd39b;
+  --color-success-bg: #17281f;
+  --color-warning: #e0a94a;
+  --color-warning-bg: #2b2113;
+  --color-danger: #f08a7c;
+  --color-danger-bg: #2e1a17;
+  --color-info: #7fb2f0;
+  --color-info-bg: #16202e;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+  }
+
+  /* Secondary text across the product is the foreground at 60%, per the
+     brand spec, rather than a separate grey ramp. */
+  .text-muted {
+    color: color-mix(in srgb, var(--color-fg) 60%, transparent);
+  }
+
+  .text-subtle {
+    color: color-mix(in srgb, var(--color-fg) 42%, transparent);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+}
+
+@layer utilities {
+  .focus-ring {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
