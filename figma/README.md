@@ -20,6 +20,19 @@ created live in Acts 1–2.
 If you ever need to rebuild from scratch (corrupt file, wrong modes), ask Cursor
 to **redo the preflight** — it needs a Full or Dev Figma seat.
 
+## Frames must survive a mode switch
+
+Figma creates every frame with an opaque white fill. Against the near-white
+Light background that is invisible, so a frame can look perfect in Light while
+carrying dozens of hard-white rectangles that stay white in Dark and hide the
+text on top of them. The Insights frame shipped this way and has been fixed.
+
+`.cursor/rules/figma-frame-fills.mdc` tells any agent working in this file to
+clear layout-only fills and bind the rest to the **Loop** collection. After
+anything rebuilds or edits a frame, verify with `figma/audit-frame-fills.js`
+(paste it into the Figma MCP `use_figma` tool) — it should report zero
+offenders, and setting `FIX = true` repairs them in place.
+
 ---
 
 ## Step 2 — Wire the link (already done)

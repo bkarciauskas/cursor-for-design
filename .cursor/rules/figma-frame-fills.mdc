@@ -1,0 +1,39 @@
+---
+description: Rules for building or editing frames in the Loop Figma file so they survive a mode switch
+alwaysApply: true
+---
+
+# Building frames in Figma
+
+Applies whenever you create or edit nodes in the Loop Figma file
+(`fileKey` = `sS7qxQ4YCFUcsC4Anuyq26`), including via `use_figma`.
+
+## Every new frame starts opaque white
+
+`figma.createFrame()` and `figma.createAutoLayout()` give the node a solid
+`#ffffff` fill. On a near-white Light-mode background this is invisible, so a
+frame built and checked only in Light mode looks correct while carrying dozens
+of hard-white rectangles. Switch to Dark and they stay white, and any
+light-coloured text sitting on them disappears.
+
+So, for every frame you create:
+
+- **Layout-only frames** (rows, columns, header groups, card bodies, cells,
+  chart columns) — set `fills = []`. They must never paint.
+- **Frames that should paint** (surfaces, cards, badges, tracks) — bind the
+  fill to a variable in the **Loop** collection. Never set a raw hex, because
+  a raw fill cannot respond to a mode switch.
+
+The only deliberate exception is avatar tints, which are raw in both modes to
+match the app.
+
+## Verify before you report done
+
+An unbound fill is silent in Light mode, so visually checking one mode proves
+nothing. Before saying the work is finished, run the audit in
+`figma/audit-frame-fills.js` against the frame you built. It must report zero
+unbound frames other than avatars.
+
+Then screenshot the frame in **both** modes via `setExplicitVariableModeForCollection`,
+and set the mode back to Light when you are done — Light is the demo's starting
+state.

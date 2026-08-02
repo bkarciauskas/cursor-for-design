@@ -21,6 +21,10 @@ const recoveries = [
     fix: "Say so out loud and ask Cursor to fix it in follow-up — refining in place is a more honest demo than a perfect first shot.",
   },
   {
+    problem: "Parts of a frame stay white when you switch to Dark",
+    fix: "Layout frames Figma created as opaque white were never bound to a variable, so they cannot re-theme. Run figma/audit-frame-fills.js with FIX set to true against that frame.",
+  },
+  {
     problem: "The Insights build introduces new colours",
     fix: "Ask it to use only tokens from globals.css. This is a good moment to show that constraints in the prompt are respected.",
   },
@@ -97,7 +101,7 @@ export default function DemoPage() {
       <Card>
         <CardHeader
           title="If it goes wrong"
-          description="Live demos drift. These are the four failures worth rehearsing."
+          description="Live demos drift. These are the five failures worth rehearsing."
           action={<AlertTriangle className="text-warning size-4" />}
         />
         <ul className="divide-border divide-y">

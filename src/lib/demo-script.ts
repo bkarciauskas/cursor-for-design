@@ -70,7 +70,9 @@ export const demoSteps: DemoStep[] = [
     ],
     prompt: `Push the Dashboard page at src/app/page.tsx into ${figmaFile} as a new frame called "Dashboard — from code".
 
-Rebuild it with real Figma layers and auto-layout, not an image. Bind fills, strokes, and corner radii to the existing "Loop" variable collection wherever a token matches.`,
+Rebuild it with real Figma layers and auto-layout, not an image. Bind fills, strokes, and corner radii to the existing "Loop" variable collection wherever a token matches.
+
+Frames are created opaque white by default, so clear the fill on every layout-only frame — otherwise they stay white when we switch modes later.`,
     outcome:
       "A fully layered frame appears in Figma — auto-layout, editable text, real components. Click into a stat card and drag it to prove it is not a screenshot.",
     tip: "Drag a layer out of the frame while you talk. That single gesture is what convinces designers it is real.",
@@ -132,7 +134,7 @@ Build it at src/app/insights/page.tsx, replacing the placeholder. Reuse the exis
     ],
     prompt: `Add a "Compare to last quarter" toggle to the Insights page header, using the existing Button component with the secondary variant.
 
-Then update the Insights frame in ${figmaFile} so the design matches the implementation.`,
+Then update the Insights frame in ${figmaFile} so the design matches the implementation. Bind any new fill to the Loop variables, and leave layout-only frames unfilled.`,
     outcome:
       "Code and design change together. The Figma frame is no longer a stale artefact of a past handoff.",
     tip: "This is the line to land: the design file stopped being a snapshot and started being a view of the codebase.",
@@ -152,7 +154,7 @@ Then update the Insights frame in ${figmaFile} so the design matches the impleme
     ],
     prompt: `Create Figma components in ${figmaFile} for the Button, Badge, and Card primitives in src/components/ui, on a page called "Library".
 
-Build a variant set per component covering the variants defined in the code, bind fills to the Loop variables, then set up Code Connect mapping each Figma component back to its source file.`,
+Build a variant set per component covering the variants defined in the code, bind every fill to the Loop variables — leaving layout-only frames unfilled — then set up Code Connect mapping each Figma component back to its source file.`,
     outcome:
       "A component library appears in Figma, and selecting a Button in Dev Mode shows the real import and props from this repo instead of generic CSS.",
     tip: "Skip this act if the audience does not yet have a component library — it lands flat without one.",
