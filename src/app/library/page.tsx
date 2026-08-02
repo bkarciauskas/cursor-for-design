@@ -3,6 +3,7 @@ import { PageHeader, SectionLabel } from "@/components/ui/section";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ToastButton } from "@/components/ui/action-button";
 import { Avatar, AvatarStack } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { StatCard } from "@/components/ui/stat-card";
@@ -46,9 +47,18 @@ export default function LibraryPage() {
         title="Library"
         description="Tokens and components shared between the Figma library and this codebase. Every token below has a matching Figma variable."
         actions={
-          <Button variant="primary" size="md">
+          <ToastButton
+            variant="primary"
+            size="md"
+            toast={{
+              title: "Publish queued",
+              description:
+                "In a real setup this would push Library components to the Loop Figma file.",
+              tone: "success",
+            }}
+          >
             Publish to Figma
-          </Button>
+          </ToastButton>
         }
       />
 

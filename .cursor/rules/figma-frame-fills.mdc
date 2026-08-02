@@ -34,6 +34,19 @@ nothing. Before saying the work is finished, run the audit in
 `figma/audit-frame-fills.js` against the frame you built. It must report zero
 unbound frames other than avatars.
 
-Then screenshot the frame in **both** modes via `setExplicitVariableModeForCollection`,
-and set the mode back to Light when you are done — Light is the demo's starting
-state.
+Then screenshot the frame in each mode the **Loop** collection currently has,
+via `setExplicitVariableModeForCollection`, and clear the override when you are
+done so the frame sits on Light — Light is the demo's starting state.
+
+## Never add modes or variables to verify your work
+
+Checking a frame must not change the design system. If the collection has only a
+Light mode, audit and screenshot in Light alone. Do **not** add a Dark mode so
+that you have a second one to check — the `.dark` block in
+`src/app/globals.css` makes that tempting and it is always wrong here. Adding
+Dark is a separate task that gets its own prompt, and doing it early ruins the
+moment it belongs to.
+
+Create variables, modes, pages, or frames only when the prompt asks for them. If
+a rule seems to require something that does not exist yet, do the reduced check
+and say so — do not build the missing thing.

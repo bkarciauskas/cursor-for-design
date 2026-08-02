@@ -10,10 +10,14 @@ import { PageHeader } from "@/components/ui/section";
 import { StatCard } from "@/components/ui/stat-card";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarStack } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { TrendChart } from "@/components/ui/trend-chart";
+import {
+  ExportReviewsButton,
+  NavigateButton,
+} from "@/components/ui/action-button";
+import { Button } from "@/components/ui/button";
 import { activity, libraryComponents, reviews, statusMeta, throughput } from "@/lib/data";
 
 const months = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
@@ -29,12 +33,21 @@ export default function DashboardPage() {
         description="Six reviews are open across three projects. Two have been waiting on you for more than a day."
         actions={
           <>
-            <Button variant="secondary" size="md">
+            <ExportReviewsButton variant="secondary" size="md">
               Export
-            </Button>
-            <Button variant="primary" size="md" iconTrailing={<ArrowRight className="size-4" />}>
+            </ExportReviewsButton>
+            <NavigateButton
+              href="/reviews"
+              variant="primary"
+              size="md"
+              iconTrailing={<ArrowRight className="size-4" />}
+              toast={{
+                title: "Starting a review",
+                description: "Pick an open review from the queue.",
+              }}
+            >
               Start review
-            </Button>
+            </NavigateButton>
           </>
         }
       />

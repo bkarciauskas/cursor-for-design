@@ -1,3 +1,6 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import { Filter, Plus } from "lucide-react";
 import { PageHeader } from "@/components/ui/section";
 import { Card } from "@/components/ui/card";
@@ -5,11 +8,23 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarStack } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
-import { reviews, statusMeta } from "@/lib/data";
+import { ToastButton } from "@/components/ui/action-button";
+import { useToast } from "@/components/ui/toast";
+import { reviews, statusMeta, type ReviewStatus } from "@/lib/data";
+import { cn } from "@/lib/cn";
 
 const columns = ["Review", "Author", "Reviewers", "Design coverage", "Status"];
 
 export default function ReviewsPage() {
+  const { toast } = useToast();
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [status, setStatus] = useState<ReviewStatus | "all">("all");
+
+  const visible = useMemo(
+    () => (status === "all" ? reviews : reviews.filter((review) => review.status === status)),
+    [status],
+  );
+
   return (
     <div className="space-y-7">
       <PageHeader
@@ -17,25 +32,66 @@ export default function ReviewsPage() {
         description="Every design review across Payments, Core, Analytics and Growth."
         actions={
           <>
-            <Button variant="secondary" size="md" iconLeading={<Filter className="size-4" />}>
+            <Button
+              variant={filterOpen ? "primary" : "secondary"}
+              size="md"
+              iconLeading={<Filter className="size-4" />}
+              aria-pressed={filterOpen}
+              onClick={() => {
+                const next = !filterOpen;
+                setFilterOpen(next);
+                toast({
+                  title: next ? "Filters shown" : "Filters hidden",
+                  description: next
+                    ? "Click a status chip to narrow the table."
+                    : "Showing every review again.",
+                });
+                if (!next) setStatus("all");
+              }}
+            >
               Filter
             </Button>
-            <Button variant="primary" size="md" iconLeading={<Plus className="size-4" />}>
+            <ToastButton
+              variant="primary"
+              size="md"
+              iconLeading={<Plus className="size-4" />}
+              toast={{
+                title: "New review drafted",
+                description: "LP-420 · Untitled review — assigned to you.",
+                tone: "success",
+              }}
+            >
               New review
-            </Button>
+            </ToastButton>
           </>
         }
       />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <Badge tone="accent" dot>
-          All · {reviews.length}
-        </Badge>
-        {Object.entries(statusMeta).map(([key, meta]) => (
-          <Badge key={key} tone="neutral">
-            {meta.label} · {reviews.filter((review) => review.status === key).length}
+      <div className={cn("flex flex-wrap items-center gap-2", !filterOpen && "opacity-70")}>
+        <button type="button" onClick={() => setStatus("all")} className="rounded-full">
+          <Badge tone={status === "all" ? "accent" : "neutral"} dot={status === "all"}>
+            All · {reviews.length}
           </Badge>
-        ))}
+        </button>
+        {Object.entries(statusMeta).map(([key, meta]) => {
+          const count = reviews.filter((review) => review.status === key).length;
+          const active = status === key;
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() => {
+                setFilterOpen(true);
+                setStatus(key as ReviewStatus);
+              }}
+              className="rounded-full"
+            >
+              <Badge tone={active ? meta.tone : "neutral"} dot={active}>
+                {meta.label} · {count}
+              </Badge>
+            </button>
+          );
+        })}
       </div>
 
       <Card>
@@ -54,7 +110,7 @@ export default function ReviewsPage() {
             </tr>
           </thead>
           <tbody className="divide-border divide-y">
-            {reviews.map((review) => (
+            {visible.map((review) => (
               <tr key={review.id} className="hover:bg-card-01 transition-colors">
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-2">
@@ -83,7 +139,13 @@ export default function ReviewsPage() {
                     </div>
                     <Progress
                       value={review.coverage}
-                      tone={review.coverage > 75 ? "success" : review.coverage > 45 ? "warning" : "accent"}
+                      tone={
+                        review.coverage > 75
+                          ? "success"
+                          : review.coverage > 45
+                            ? "warning"
+                            : "accent"
+                      }
                       label={`${review.title} design coverage`}
                     />
                   </div>
@@ -95,6 +157,13 @@ export default function ReviewsPage() {
                 </td>
               </tr>
             ))}
+            {visible.length === 0 && (
+              <tr>
+                <td colSpan={5} className="text-muted px-5 py-10 text-center text-sm">
+                  No reviews match this filter.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </Card>
