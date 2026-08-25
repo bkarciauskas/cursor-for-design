@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LoopDiagram } from "@/components/demo/loop-diagram";
 import { DemoSteps } from "@/components/demo/demo-steps";
+import { DemoReset } from "@/components/demo/demo-reset";
 import { demoConfig, hasInsightsDesign } from "@/lib/demo-config";
 
 export const metadata = {
@@ -97,6 +98,16 @@ export default function DemoPage() {
       </Card>
 
       <DemoSteps />
+
+      <Card>
+        <CardHeader
+          title="Reset for next run"
+          description="Restore the pre-demo starting state after a presentation. Code resets here; Figma needs a Cursor paste."
+        />
+        <CardBody>
+          <DemoReset />
+        </CardBody>
+      </Card>
 
       <Card>
         <CardHeader

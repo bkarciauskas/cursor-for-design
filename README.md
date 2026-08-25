@@ -56,21 +56,18 @@ the Figma file is regenerated.
 
 ## Resetting between runs
 
-The reset relies on git, so make the initial commit before your first run:
+Presenter tooling (keep this on `main` — the `demo` branch is only for live
+messy runs):
 
-```bash
-git add -A && git commit -m "Initial commit"
-```
+1. On `/demo`, use **Reset for next run**:
+   - **Restore Insights placeholder** — copies `figma/insights-placeholder.tsx`
+     over `src/app/insights/page.tsx` and clears act checkboxes
+   - **Copy Figma reset prompt** — paste into Cursor so it runs
+     `figma/reset-pre-demo.js` (deletes Dark + Dashboard, clears Insights overrides)
+2. Or from the shell: `npm run demo:reset` (code only; prints the Figma prompt)
 
-Afterwards, restoring the placeholder is one command:
-
-```bash
-git checkout src/app/insights/page.tsx
-```
-
-In Figma, delete the `Dashboard — from code` frame and the `Dark` variable mode
-the demo added. The demo script's progress checkboxes reset from the button on
-`/demo`.
+Do **not** rely on `git checkout` of Insights — that page is often already built
+on `main`. The placeholder file is the source of truth for Act 3.
 
 ## Scripts
 
@@ -79,6 +76,7 @@ the demo added. The demo script's progress checkboxes reset from the button on
 | `npm run dev`               | Dev server on port 3000                             |
 | `npm run build`             | Production build                                    |
 | `npm run lint`              | ESLint                                              |
+| `npm run demo:reset`        | Restore Insights placeholder; print Figma reset prompt |
 | `node scripts/shots.mjs`    | Screenshots every route in both themes to `shots/`  |
 
 `scripts/shots.mjs` and `scripts/console-check.mjs` are development aids for

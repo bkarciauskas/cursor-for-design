@@ -51,13 +51,13 @@ insightsNodeUrl: "https://www.figma.com/design/sS7qxQ4YCFUcsC4Anuyq26?node-id=3-
 
 ## Resetting between runs
 
-After a run, restore the starting state with:
+After a run, restore the starting state:
 
-```bash
-git checkout src/app/insights/page.tsx
-# or, if you have not committed yet:
-cp figma/insights-placeholder.tsx src/app/insights/page.tsx
-```
+1. **Code** — from `/demo` click **Restore Insights placeholder**, or run
+   `npm run demo:reset` (copies `figma/insights-placeholder.tsx` over
+   `src/app/insights/page.tsx`).
+2. **Figma** — paste the **Figma reset prompt** from `/demo` into Cursor (runs
+   `figma/reset-pre-demo.js`): deletes `Dashboard — from code`, deletes Dark on
+   Loop, clears Insights mode overrides. Light + Insights only.
 
-In Figma, delete the `Dashboard — from code` frame and the `Dark` mode that the
-demo added, so the next run starts clean.
+The act checkboxes on `/demo` clear with the Insights restore.
